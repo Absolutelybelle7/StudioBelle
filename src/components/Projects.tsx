@@ -53,14 +53,15 @@ const projects = [
     link: 'https://royalton-shipping.vercel.app/',
     featured: false,
   },
-  // {
-  //   title: 'Forge UI',
-  //   category: 'Design System',
-  //   description: 'An open-source component library with 50+ accessible, themeable React components.',
-  //   tags: ['React', 'TypeScript', 'Storybook'],
-  //   image: 'https://images.pexels.com/photos/196644/pexels-photo-196644.jpeg?auto=compress&cs=tinysrgb&w=800',
-  //   featured: false,
-  // },
+  {
+    title: 'Lotus Hotel',
+    category: 'Hotel Website',
+    description: 'A website for hotels to manage reservations and bookings.',
+    tags: ['React', 'Node.js', 'Firebase', 'Typescript'],
+    image: shipImg,
+    link: 'https://lotushotel.vercel.app/',
+    featured: false,
+  },
 ]
 
 export default function Projects() {
