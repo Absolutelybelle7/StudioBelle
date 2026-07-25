@@ -6,6 +6,7 @@ import NGOImg from '../assets/images/NGO.png'
 import schImg from '../assets/images/school.png'
 import restaurantImg from '../assets/images/restaurant.png'
 import shipImg from '../assets/images/shipping.png'
+import hotelImg from '../assets/images/hotel.png'
 
 
 const projects = [
@@ -58,7 +59,7 @@ const projects = [
     category: 'Hotel Website',
     description: 'A website for hotels to manage reservations and bookings.',
     tags: ['React', 'Node.js', 'Firebase', 'Typescript'],
-    image: shipImg,
+    image: hotelImg,
     link: 'https://lotushotel.vercel.app/',
     featured: false,
   },

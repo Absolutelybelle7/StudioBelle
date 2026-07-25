@@ -10,7 +10,7 @@ import cssImg from '../assets/images/css.jpg'
 import htImg from '../assets/images/html.jpg'
 import twImg from '../assets/images/tailwind.jpg'
 import reactImg from '../assets/images/react.jpg'
-import figImg from '../assets/images/Figma.jpg'
+import figImg from '../assets/images/figma.jpg'
 import gitImg from '../assets/images/git.jpg'
 
 const skills = [
