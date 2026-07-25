@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { Code2, Layout, Server, Smartphone, Check } from 'lucide-react'
+import { Code2, Layout, Server, Smartphone, Check, Megaphone } from 'lucide-react'
 
 const services = [
   {
@@ -15,11 +15,13 @@ const services = [
     description: 'Creating installable, offline-capable web apps that work seamlessly across all devices.',
     features: ['Offline support', 'Push notifications', 'App-like experience', 'Cross-platform'],
   },
-  {
-    icon: Code2,
-    title: 'Code Consulting',
-    description: 'Helping teams improve code quality, architecture, and development workflows.',
-    features: ['Code reviews', 'Architecture planning', 'Tech stack selection', 'Team mentoring'],
+ 
+
+   {
+    icon: Megaphone,
+    title: 'Digital Solutions',
+    description: 'Planning and running digital campaigns that get brands in front of the right audience.',
+    features: ['Social media ads', 'Snap ads', 'Content Creation', 'SEO Optimization'],
   },
 ]
 
