@@ -16,7 +16,7 @@ const projects = [
     description: 'A full-featured e-commerce platform with Stripe payments, inventory, and order management.',
     tags: ['React', 'TypeScript', 'Supabase', 'Stripe'],
     image: ecommerceImg,
-    link: 'https://ecommerce.studio-belle.com/',
+    link: 'https://lunora-rho.vercel.app/',
   },
   {
     title: 'Mass Love Foundation',
