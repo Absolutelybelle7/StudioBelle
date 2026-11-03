@@ -1,73 +1,123 @@
 import { motion } from 'framer-motion'
 import { ExternalLink, Github, ArrowUpRight } from 'lucide-react'
 import { useState } from 'react'
-import ecommerceImg from '../assets/images/ecommerce.png'
-import NGOImg from '../assets/images/NGO.png'
-import schImg from '../assets/images/school.png'
-import restaurantImg from '../assets/images/restaurant.png'
-import shipImg from '../assets/images/shipping.png'
-import hotelImg from '../assets/images/hotel.png'
+import ecommerceImg from '../assets/images/ecommerce.jpg'
+import NGOImg from '../assets/images/NGO.jpg'
+import schImg from '../assets/images/school.jpg'
+import restaurantImg from '../assets/images/restaurant.jpg'
+import shipImg from '../assets/images/shipping.jpg'
+import hotelImg from '../assets/images/hotel.jpg'
+import salonImg from '../assets/images/maison-salon.png'
 
+type Project = {
+  title: string
+  slug: string
+  category: string
+  description: string
 
-const projects = [
+  image?: string
+  link: string
+  linkLabel?: string
+  featured?: boolean
+}
+
+export const projects: Project[] = [
   {
-    title: 'E-commerce',
+    title: 'Lunora',
+    slug: 'e-commerce',
     category: 'E-commerce Platform',
-    description: 'A full-featured e-commerce platform with Stripe payments, inventory, and order management.',
-    tags: ['React', 'TypeScript', 'Supabase', 'Stripe'],
-    image: ecommerceImg,
+    description: 'A fashion storefront concept focused on presenting collections clearly and giving shoppers a polished online browsing experience.',
+        image: ecommerceImg,
     link: 'https://lunora-rho.vercel.app/',
   },
   {
     title: 'Mass Love Foundation',
+    slug: 'mass-love-foundation',
     category: 'NGO Website',
-    description: 'A website for non-profit organizations to showcase their work and raise funds.',
-    tags: ['React', 'Node.js', 'Typescript', 'Supabase'],
+    description: 'A mission-led foundation website that introduces its education and community work, shares impact, and gives supporters a clear way to contribute.',
+   
     image: NGOImg,
     link: 'https://mass-love-foundation.vercel.app/',
     featured: true,
   },
   {
-    title: 'School Website',
+    title: 'Adinkra Heritage',
+    slug: 'school-website',
     category: 'Educational Website',
-    description: 'A website for schools to manage student records and information.',
-    tags: ['React', 'Typescript', 'Firebase', 'Tailwind CSS'],
+    description: 'An educational website for Adinkra Heritage, bringing its school identity and information together in an approachable online experience.',
+   
     image: schImg,
     link: 'https://adinkra-heritage.vercel.app/',
     featured: false,
   },
   {
     title: 'La Date Restaurant',
+    slug: 'la-date-restaurant',
     category: 'Restaurant Website',
-    description: 'A website for a restaurant to manage reservations and orders.',
-    tags: ['Typescript', 'Stripe', 'Supabase'],
+    description: 'A restaurant website showcasing La Date’s dining experience, with clear paths to explore the menu, order, and make a reservation.',
+  
     image: restaurantImg,
     link: 'https://la-date.vercel.app/',
     featured: false,
   },
   {
-    title: 'Shipping Company',
+    title: 'Royalton Shipping',
+    slug: 'shipping-company',
     category: 'Web Application',
-    description: 'A web application for shipping companies to manage orders and track packages.',
-    tags: ['React', 'Node.js', 'Firebase'],
+    description: 'A digital presence for a shipping company, presenting its services and helping customers find the next step for their delivery needs.',
+   
     image: shipImg,
     link: 'https://royalton-shipping.vercel.app/',
     featured: false,
   },
   {
-    title: 'Lotus Hotel',
+    title: 'Lotus Beach Resort',
+    slug: 'lotus-hotel',
     category: 'Hotel Website',
-    description: 'A website for hotels to manage reservations and bookings.',
-    tags: ['React', 'Node.js', 'Firebase', 'Typescript'],
+    description: 'A hospitality website for Lotus Beach Resort, designed to introduce the stay and make rooms and guest information easy to explore.',
+   
     image: hotelImg,
     link: 'https://lotushotel.vercel.app/',
     featured: false,
   },
+
+  {
+    title: 'Apex Construction',
+    slug: 'apex-construction',
+    category: 'Construction',
+    description: 'A construction-company website concept that gives the business a clear online presence for its services and projects.',
+  
+    link: 'https://apexconstruction.vercel.app/',
+  },
+ 
+  {
+    title: 'Maison Aube',
+    slug: 'beauty-and-spa-salon',
+    category: 'Beauty & Wellness',
+    description: 'A salon website concept built to introduce beauty services and provide a welcoming route for prospective clients.',
+  
+    image: salonImg,
+    link: 'https://github.com/Absolutelybelle7/Maison-Aube',
+    linkLabel: 'View source on GitHub',
+  },
+ 
+  {
+    title: 'Fleets Vehicle Marketplace',
+    slug: 'fleets-marketplace',
+    category: 'Automotive',
+    description: 'A vehicle-purchase project exploring a digital browsing experience for people comparing available vehicles.',
+
+    link: 'https://github.com/Absolutelybelle7/fleets',
+    linkLabel: 'View source on GitHub',
+  },
+
+ 
 ]
 
-export default function Projects() {
+export default function Projects({ limit, heading = "Projects I've built." }: { limit?: number; heading?: string }) {
   const [filter, setFilter] = useState('All')
-  const categories = ['All', ...Array.from(new Set(projects.map(p => p.category)))]
+  const visibleProjects = limit ? projects.slice(0, limit) : projects
+  const categories = ['All', ...Array.from(new Set(visibleProjects.map(p => p.category)))]
 
   return (
     <section id="work" className="section">
@@ -75,7 +125,7 @@ export default function Projects() {
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: 20, marginBottom: 50 }}>
           <div>
             <div className="section-label">Selected Work</div>
-            <h2 className="section-title">Projects I've built.</h2>
+            <h2 className="section-title">{heading}</h2>
           </div>
           <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
             {categories.map(cat => (
@@ -96,8 +146,8 @@ export default function Projects() {
           </div>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))', gap: 24 }}>
-          {projects.filter(p => filter === 'All' || p.category === filter).map((p, i) => (
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 340px), 1fr))', gap: 24 }}>
+          {visibleProjects.filter(p => filter === 'All' || p.category === filter).map((p, i) => (
             <motion.div
               key={p.title}
               initial={{ opacity: 0, y: 40 }}
@@ -113,13 +163,23 @@ export default function Projects() {
               onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.transform = 'translateY(0)' }}
             >
               <div style={{ position: 'relative', height: 220, overflow: 'hidden', background: 'var(--surface)' }}>
-                <img
-                  src={p.image}
-                  alt={p.title}
-                  style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top center', display: 'block', transition: 'transform 0.5s' }}
-                  onMouseEnter={e => e.currentTarget.style.transform = 'scale(1.05)'}
-                  onMouseLeave={e => e.currentTarget.style.transform = 'scale(1)'}
-                />
+                {p.image ? (
+                  <img
+                    src={p.image}
+                    alt={`${p.title} preview`}
+                    loading="lazy"
+                    decoding="async"
+                    style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top center', display: 'block', transition: 'transform 0.5s' }}
+                    onMouseEnter={e => e.currentTarget.style.transform = 'scale(1.05)'}
+                    onMouseLeave={e => e.currentTarget.style.transform = 'scale(1)'}
+                  />
+                ) : (
+                  <div className={`project-placeholder placeholder-${i % 6}`}>
+                    <span>STUDIOBELLE · SELECTED WORK</span>
+                    <strong>{p.title}</strong>
+                    <span>{p.category}</span>
+                  </div>
+                )}
                 <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, transparent 40%, var(--bg-card) 100%)' }} />
                 {p.featured && (
                   <span style={{
@@ -134,12 +194,13 @@ export default function Projects() {
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 8 }}>
                   <div>
                     <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: 'var(--primary)', marginBottom: 4 }}>{p.category}</div>
-                    <h3 style={{ fontSize: '1.2rem', fontWeight: 600 }}>{p.title}</h3>
+                    <a href={`/portfolio/${p.slug}`} style={{ fontSize: '1.2rem', fontWeight: 600 }}>{p.title}</a>
                   </div>
                   <a
                     href={p.link}
                     target="_blank"
                     rel="noreferrer"
+                    aria-label={`${p.linkLabel ?? 'Visit'} ${p.title} (opens in a new tab)`}
                     style={{
                       display: 'grid', placeItems: 'center', width: 36, height: 36, borderRadius: 10,
                       background: 'var(--surface)', border: '1px solid var(--border)',
@@ -153,22 +214,19 @@ export default function Projects() {
                 </div>
                 <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', marginBottom: 16, lineHeight: 1.6 }}>{p.description}</p>
                 <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-                  {p.tags.map(t => (
-                    <span key={t} style={{
-                      padding: '4px 10px', borderRadius: 6, background: 'var(--surface)',
-                      fontFamily: 'var(--font-mono)', fontSize: '0.72rem', color: 'var(--text-dim)',
-                    }}>
-                      {t}
-                    </span>
-                  ))}
-                </div>
+                 </div>
               </div>
             </motion.div>
           ))}
         </div>
 
         <div style={{ textAlign: 'center', marginTop: 50 }}>
-          <a href="https://github.com/Absolutelybelle7" target="_blank" rel="noopener noreferrer" aria-label="View more on GitHub (opens in a new tab)" style={{
+          {limit && (
+            <a href="/portfolio" className="button button-dark" style={{ marginBottom: 14 }}>
+              Explore all projects <ArrowUpRight size={17} />
+            </a>
+          )}
+          <a href="https://github.com/Absolutelybelle7" target="_blank" rel="noopener noreferrer" aria-label="View project repositories on GitHub (opens in a new tab)" style={{
             display: 'inline-flex', alignItems: 'center', gap: 8, padding: '14px 28px',
             borderRadius: 999, border: '1px solid var(--border-light)', fontWeight: 500, fontSize: '0.95rem',
             transition: 'border-color 0.2s, background 0.2s',

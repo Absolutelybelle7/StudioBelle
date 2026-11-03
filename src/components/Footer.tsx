@@ -1,5 +1,5 @@
-import { Code2, Github, Linkedin, Camera, ArrowUp } from 'lucide-react'
-import logo from '../assets/images/My Logo (2).png'
+import { Github, Linkedin, Camera, ArrowUp } from 'lucide-react'
+import logo from '../assets/images/My Logo (1).png'
 
 export default function Footer() {
   return (
@@ -8,11 +8,13 @@ export default function Footer() {
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 20 }}>
           <img src={logo} alt="StudioBelle Logo" style={{ height: 140 }} />
           <div style={{ display: 'flex', gap: 24, fontSize: '0.88rem', color: 'var(--text-muted)' }} className="footer-links">
-            <a href="#about">About</a>
-            <a href="#skills">Skills</a>
-            <a href="#work">Work</a>
-            <a href="#services">Services</a>
-            <a href="#contact">Contact</a>
+            <a href="/">Home</a>
+            <a href="/about">About</a>
+            <a href="/services">Packages</a>
+            <a href="/portfolio">Portfolio</a>
+            <a href="/faq">FAQ</a>
+            <a href="/contact">Ask a question</a>
+            <a href="/reserve">Project estimate</a>
           </div>
 
           <div style={{ display: 'flex', gap: 12 }}>
@@ -47,23 +49,18 @@ export default function Footer() {
           <p style={{ fontSize: '0.82rem', color: 'var(--text-dim)' }}>
             © {new Date().getFullYear()} StudioBelle. All rights reserved.
           </p>
-          <a href="#hero" style={{
+          <a href="/" style={{
             display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: '0.82rem', color: 'var(--text-muted)',
             transition: 'color 0.2s',
           }}
           onMouseEnter={e => e.currentTarget.style.color = 'var(--primary)'}
           onMouseLeave={e => e.currentTarget.style.color = 'var(--text-muted)'}
           >
-            Back to top <ArrowUp size={14} />
+            Back to home <ArrowUp size={14} />
           </a>
         </div>
       </div>
 
-      <style>{`
-        @media (max-width: 600px) {
-          .footer-links { display: none !important; }
-        }
-      `}</style>
     </footer>
   )
 }

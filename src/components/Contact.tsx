@@ -1,10 +1,10 @@
 import { motion } from 'framer-motion'
 import { useState } from 'react'
-import { Mail, MapPin, Phone, Send, Check } from 'lucide-react'
+import { Mail, MapPin, Phone, Send } from 'lucide-react'
 
-export default function Contact() {
-  const [form, setForm] = useState({ name: '', email: '', message: '' })
-  const [sent, setSent] = useState(false)
+export default function Contact({ initialMessage = '' }: { initialMessage?: string }) {
+  const [form, setForm] = useState({ name: '', email: '', message: initialMessage })
+  const [emailDraftOpened, setEmailDraftOpened] = useState(false)
   const [errors, setErrors] = useState<Record<string, string>>({})
 
   const validate = () => {
@@ -24,11 +24,10 @@ export default function Contact() {
       return
     }
     setErrors({})
-    setSent(true)
-    setTimeout(() => {
-      setSent(false)
-      setForm({ name: '', email: '', message: '' })
-    }, 3000)
+    const subject = encodeURIComponent(`StudioBelle project enquiry from ${form.name.trim()}`)
+    const body = encodeURIComponent(`${form.message.trim()}\n\nReply to: ${form.email.trim()}`)
+    window.location.href = `mailto:adansibonnahc@gmail.com?subject=${subject}&body=${body}`
+    setEmailDraftOpened(true)
   }
 
   return (
@@ -44,13 +43,15 @@ export default function Contact() {
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
               {[
-                { icon: Mail, label: 'Email',  href: 'adansibonnahc@gmail.com' },
-                { icon: Phone, label: 'Phone',  href: '+233530121155' },
-                { icon: MapPin, label: 'Location',  href: 'Accra, Ghana' },
+                { icon: Mail, label: 'Email', value: 'adansibonnahc@gmail.com', href: 'mailto:adansibonnahc@gmail.com' },
+                { icon: Phone, label: 'Phone', value: '+233530121155', href: 'tel:+233530121155' },
+                { icon: MapPin, label: 'Location', value: 'Accra, Ghana', href: 'https://maps.google.com/?q=Accra%2C%20Ghana' },
               ].map(c => (
                 <a
                   key={c.label}
-                  href={c.href ?? '#'}
+                  href={c.href}
+                  target={c.label === 'Location' ? '_blank' : undefined}
+                  rel={c.label === 'Location' ? 'noreferrer' : undefined}
                   style={{ display: 'flex', alignItems: 'center', gap: 16, padding: '4px 0' }}
                 >
                   <div style={{
@@ -65,7 +66,7 @@ export default function Contact() {
                   </div>
                   <div>
                     <div style={{ fontSize: '0.78rem', color: 'var(--text-dim)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>{c.label}</div>
-                    <div style={{ fontSize: '0.95rem', color: 'var(--text)' }}>{c.href}</div>
+                    <div style={{ fontSize: '0.95rem', color: 'var(--text)' }}>{c.value}</div>
                   </div>
                 </a>
               ))}
@@ -85,8 +86,9 @@ export default function Contact() {
           >
             <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
               <div>
-                <label style={{ display: 'block', fontSize: '0.85rem', color: 'var(--text-muted)', marginBottom: 8 }}>Your Full Name</label>
+                <label htmlFor="contact-name" style={{ display: 'block', fontSize: '0.85rem', color: 'var(--text-muted)', marginBottom: 8 }}>Your Full Name</label>
                 <input
+                  id="contact-name"
                   type="text"
                   value={form.name}
                   onChange={e => setForm({ ...form, name: e.target.value })}
@@ -104,8 +106,9 @@ export default function Contact() {
               </div>
 
               <div>
-                <label style={{ display: 'block', fontSize: '0.85rem', color: 'var(--text-muted)', marginBottom: 8 }}>Email Address</label>
+                <label htmlFor="contact-email" style={{ display: 'block', fontSize: '0.85rem', color: 'var(--text-muted)', marginBottom: 8 }}>Email Address</label>
                 <input
+                  id="contact-email"
                   type="email"
                   value={form.email}
                   onChange={e => setForm({ ...form, email: e.target.value })}
@@ -123,8 +126,9 @@ export default function Contact() {
               </div>
 
               <div>
-                <label style={{ display: 'block', fontSize: '0.85rem', color: 'var(--text-muted)', marginBottom: 8 }}>Message</label>
+                <label htmlFor="contact-message" style={{ display: 'block', fontSize: '0.85rem', color: 'var(--text-muted)', marginBottom: 8 }}>Message</label>
                 <textarea
+                  id="contact-message"
                   value={form.message}
                   onChange={e => setForm({ ...form, message: e.target.value })}
                   placeholder="Tell me about your project..."
@@ -143,19 +147,23 @@ export default function Contact() {
 
               <button
                 type="submit"
-                disabled={sent}
                 style={{
-                  padding: '14px 28px', borderRadius: 10, background: sent ? 'var(--primary-dim)' : 'var(--primary)',
+                  padding: '14px 28px', borderRadius: 10, background: 'var(--primary)',
                   color: 'var(--bg)', fontWeight: 600, fontSize: '0.95rem',
                   display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 8,
                   transition: 'transform 0.2s, box-shadow 0.2s',
-                  cursor: sent ? 'default' : 'pointer',
+                  cursor: 'pointer',
                 }}
-                onMouseEnter={e => { if (!sent) { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 10px 30px var(--primary-glow)' } }}
+                onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 10px 30px var(--primary-glow)' }}
                 onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = 'none' }}
               >
-                {sent ? (<><Check size={18} /> Message Sent!</>) : (<>Send Message <Send size={16} /></>)}
+                <>Continue by Email <Send size={16} /></>
               </button>
+              {emailDraftOpened && (
+                <p role="status" style={{ color: 'var(--text-muted)', fontSize: '0.82rem' }}>
+                  Your email app should open with the message. Review and send it there to complete your enquiry.
+                </p>
+              )}
             </div>
           </motion.form>
         </div>

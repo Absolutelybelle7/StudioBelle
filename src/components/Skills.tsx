@@ -38,7 +38,7 @@ const tools = [
 ]
 
 const experienceHighlights = [
-  { label: 'Years of experience', value: '3+' },
+  { label: 'Years of experience', value: '4+' },
   { label: 'Projects delivered', value: '10+' },
   { label: 'Happy clients', value: '12+' },
 ]
@@ -66,7 +66,7 @@ export default function Skills() {
         <p className="section-subtitle">I blend thoughtful design, modern engineering, and product intuition to turn ideas into polished experiences.</p>
       </div>
 
-      {/* Slow horizontal skills carousel */}
+      {/*  skills carousel */}
       <div
         ref={ref}
         style={{
@@ -113,6 +113,8 @@ export default function Skills() {
                   <img
                     src={item.image}
                     alt={item.name}
+                    loading="lazy"
+                    decoding="async"
                     style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '50%' }}
                   />
                 ) : item.image ? (
@@ -128,77 +130,6 @@ export default function Skills() {
         </motion.div>
       </div>
 
-      <div
-        style={{
-          position: 'relative',
-          minHeight: 420,
-          marginTop: 0,
-          backgroundImage: `url(${experienceBg})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat',
-          filter: 'grayscale(0.15)',
-          display: 'flex',
-          alignItems: 'center',
-        }}
-      >
-        <div
-          style={{
-            position: 'absolute',
-            inset: 0,
-            background: 'linear-gradient(90deg, rgba(10,14,22,0.15) 0%, rgba(10,14,22,0.75) 62%, rgba(10,14,22,0.9) 100%)',
-          }}
-        />
-
-        <div
-          className="container"
-          style={{
-            position: 'relative',
-            zIndex: 1,
-            display: 'flex',
-            justifyContent: 'flex-end',
-            width: '100%',
-          }}
-        >
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.4 }}
-            transition={{ duration: 0.6 }}
-            style={{ maxWidth: 360, textAlign: 'right' }}
-          >
-            <div style={{ color: '#fff', fontSize: '1.6rem', fontWeight: 700, marginBottom: 16 }}>
-              Experience snapshot
-            </div>
-            <p style={{ color: 'rgba(255,255,255,0.75)', lineHeight: 1.8, marginBottom: 28 }}>
-              A practical mix of strategy, design, and delivery — built through real projects, real clients, and real deadlines.
-            </p>
-
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-              {experienceHighlights.map((item, i) => (
-                <motion.div
-                  key={item.label}
-                  initial={{ opacity: 0, x: 16 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: i * 0.1 }}
-                  style={{
-                    display: 'flex',
-                    justifyContent: 'flex-end',
-                    alignItems: 'baseline',
-                    gap: 12,
-                    borderBottom: '1px solid rgba(255,255,255,0.18)',
-                    paddingBottom: 12,
-                  }}
-                >
-                  <span style={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.95rem' }}>{item.label}</span>
-                  <span style={{ color: 'var(--primary)', fontSize: '1.5rem', fontWeight: 700 }}>{item.value}</span>
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
-        </div>
-      </div>
 
       <style>{`
         .marquee-track {

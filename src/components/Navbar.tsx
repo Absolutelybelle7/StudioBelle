@@ -1,134 +1,74 @@
 import { useEffect, useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
-import { Menu, X } from 'lucide-react'
-import logoImg from '../assets/images/My Logo (2).png'
+import { AnimatePresence, motion } from 'framer-motion'
+import { ArrowUpRight, Menu, X } from 'lucide-react'
+import logoImg from '../assets/images/My Logo (1).png'
 
 const links = [
-  { label: 'About', href: '#about' },
-  { label: 'Skills', href: '#skills' },
-  { label: 'Work', href: '#work' },
-  { label: 'Services', href: '#services' },
-  { label: 'Contact', href: '#contact' },
+  { label: 'Home', href: '/' },
+  { label: 'About', href: '/about' },
+  { label: 'Packages', href: '/services' },
+  { label: 'Portfolio', href: '/portfolio' },
 ]
 
 export default function Navbar() {
-  const [scrolled, setScrolled] = useState(false)
+  const [scrolled, setScrolled] = useState(window.location.pathname !== '/')
   const [open, setOpen] = useState(false)
-  const [active, setActive] = useState('')
+  const isHome = window.location.pathname === '/'
 
   useEffect(() => {
-    const onScroll = () => {
-      setScrolled(window.scrollY > 40)
-      const sections = links.map(l => l.href.slice(1))
-      for (const id of sections) {
-        const el = document.getElementById(id)
-        if (el) {
-          const rect = el.getBoundingClientRect()
-          if (rect.top <= 120 && rect.bottom >= 120) {
-            setActive(id)
-            return
-          }
-        }
-      }
-    }
-    window.addEventListener('scroll', onScroll)
+    const onScroll = () => setScrolled(!isHome || window.scrollY > window.innerHeight * 0.72)
+    window.addEventListener('scroll', onScroll, { passive: true })
     onScroll()
     return () => window.removeEventListener('scroll', onScroll)
-  }, [])
+  }, [isHome])
 
   return (
-    <motion.nav
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.5, ease: 'easeOut' }}
-      style={{
-        position: 'fixed',
-        top: 0, left: 0, right: 0,
-        zIndex: 100,
-        backdropFilter: scrolled ? 'blur(12px)' : 'none',
-        background: scrolled ? 'rgba(29, 14, 39, 0.22)' : 'transparent',
-        borderBottom: scrolled ? '1px solid var(--border)' : '1px solid transparent',
-        transition: 'background 0.3s, border-color 0.3s',
-        
-      }}
+    <motion.header
+      className={`site-header${scrolled ? ' is-scrolled' : ''}`}
+      initial={{ y: -70, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
     >
-      <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 72 }}>
-        <a href="#hero" style={{ display: 'flex', alignItems: 'center', gap: 10, fontWeight: 700, fontSize: '1.1rem', marginLeft: -8 }}>
-          <img
-            src={logoImg}
-            alt="StudioBelle logo"
-            style={{ width: 100, height: 150, objectFit: 'contain', borderRadius: 12, display: 'block' }}
-          />
+      <nav className="nav-inner container" aria-label="Main navigation">
+        <a className="nav-brand" href="/" aria-label="StudioBelle home">
+          <img src={logoImg} alt="StudioBelle" />
+          <span>STUDIO BELLE
+          <small> DIGITAL SOLUTIONS</small>
+          </span>
         </a>
-
-        <div style={{ display: 'flex', alignItems: 'center', gap: 32 }}>
-          <div className="nav-links" style={{ display: 'flex', gap: 28 }}>
-            {links.map(l => (
-              <a
-                key={l.href}
-                href={l.href}
-                style={{
-                  fontSize: '0.92rem',
-                  color: scrolled ? '#000' : '#fff',
-                  fontWeight: 500,
-                  transition: 'color 0.2s',
-                  position: 'relative',
-                }}
-                onMouseEnter={e => (e.currentTarget.style.color = scrolled ? '#000' : '#fff')}
-                onMouseLeave={e => (e.currentTarget.style.color = scrolled ? '#000' : '#fff')}
-              >
-                {l.label}
-              </a>
-            ))}
-          </div>
-          <a
-            href="#contact"
-            style={{
-              padding: '10px 22px',
-              borderRadius: 999,
-              background: 'var(--primary)',
-              color: 'var(--bg)',
-              fontWeight: 600,
-              fontSize: '0.9rem',
-              transition: 'transform 0.2s, box-shadow 0.2s',
-            }}
-            onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 8px 24px var(--primary-glow)' }}
-            onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = 'none' }}
-          >
-            Let's Talk
-          </a>
-          <button className="nav-toggle" onClick={() => setOpen(!open)} style={{ display: 'none' }}>
-            {open ? <X size={24} /> : <Menu size={24} />}
-          </button>
+        <div className="nav-links">
+          {links.map(link => (
+            <a key={link.href} href={link.href} aria-current={window.location.pathname === link.href ? 'page' : undefined}>
+              {link.label}
+            </a>
+          ))}
         </div>
-      </div>
-
+        <a className="nav-contact" href="/consultation">Let’s talk <ArrowUpRight size={15} /></a>
+        <button
+          className="nav-toggle"
+          type="button"
+          aria-label={open ? 'Close menu' : 'Open menu'}
+          aria-expanded={open}
+          onClick={() => setOpen(!open)}
+        >
+          {open ? <X size={20} /> : <Menu size={20} />}
+        </button>
+      </nav>
       <AnimatePresence>
         {open && (
           <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: 'auto', opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            style={{ overflow: 'hidden', background: 'var(--bg-elev)', borderBottom: '1px solid var(--border)' }}
+            className="mobile-menu"
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.25 }}
           >
-            <div className="container" style={{ padding: '20px 24px', display: 'flex', flexDirection: 'column', gap: 16 }}>
-              {links.map(l => (
-                <a key={l.href} href={l.href} onClick={() => setOpen(false)}
-                  style={{ color: scrolled ? '#000' : '#fff', fontWeight: 500 }}>
-                  {l.label}
-                </a>
-              ))}
-            </div>
+            {[...links, { label: 'Contact', href: '/consultation' }].map(link => (
+              <a key={link.href} href={link.href} onClick={() => setOpen(false)}>{link.label}<ArrowUpRight size={16} /></a>
+            ))}
           </motion.div>
         )}
       </AnimatePresence>
-
-      <style>{`
-        @media (max-width: 768px) {
-          .nav-links { display: none !important; }
-          .nav-toggle { display: block !important; }
-        }
-      `}</style>
-    </motion.nav>
+    </motion.header>
   )
 }
